@@ -5,9 +5,10 @@ This is my course project on commonsense question answering with language models
 ## Steps to reproduce the results
 * Clone the repo, create a virtual environment and run the script install.sh to install necessary packages.
 * Run the script download_preprocessed_data.sh to get preprocessed data.
-* Run 
+* Run the following commands:
   ```
   mv pr.py data/csqa/graph/pr.py
+  cd data/csqa/graph
   python pr.py train
   python pr.py dev
   python pr.py test
