@@ -1,8 +1,17 @@
 import pickle
+import sys
 import networkx as nx
 from collections import OrderedDict
-nodes = pickle.load(open('train.graph.adj.pk', 'rb'))
+
+mode = sys.argv[1]
+if mode == 'train':
+	nodes = pickle.load(open('train.graph.adj.pk', 'rb'))
+elif mode == 'dev':
+	nodes = pickle.load(open('dev.graph.adj.pk', 'rb'))
+elif mode == 'test':
+	nodes = pickle.load(open('test.graph.adj.pk', 'rb'))
 cpnet = nx.read_gpickle('../../cpnet/conceptnet.en.pruned.graph')
+
 for g in nodes:
 	G = nx.MultiDiGraph()
 	s = {}
@@ -24,4 +33,9 @@ for g in nodes:
 	for k in g['cid2score'].keys():
 		arr.append((k, g['cid2score'][k] + pr[k]))
 	g['cid2score'] = OrderedDict(sorted(arr, key=lambda x: -x[1]))
-pickle.dump(nodes, open('train.graph.pr.pk', 'wb'))
+if mode == 'train':
+	pickle.dump(nodes, open('train.graph.pr.pk', 'wb'))
+elif mode == 'dev':
+	pickle.dump(nodes, open('dev.graph.pr.pk', 'wb'))
+elif mode == 'test':
+	pickle.dump(nodes, open('test.graph.pr.pk', 'wb'))
